@@ -6,3 +6,6 @@ So that way we are searching for the id rather than the file
 Authentication database, person comes in and authenticates, go through user ids and see if the user has access to the files
 Store Database where we will take the file id and pull the file
 
+We have split into two groups, a front end team and a back end team. Aiden, Nick, and Matthew will work on the back end, Joe and Luke will work on the front end.
+
+For next week, we will work in our respective teams to propose specific technologies to implement the discussed features, and formalise our visions for the components of the project. We will work to define each group-members expected contributions and timeline.
