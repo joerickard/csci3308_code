@@ -1,0 +1,8 @@
+Features:
+Users <-> files
+Two databases, one for the users and the ids to their files, other is where the files are 
+stores and the ids would correlate to the database with the files
+So that way we are searching for the id rather than the file
+Authentication database, person comes in and authenticates, go through user ids and see if the user has access to the files
+Store Database where we will take the file id and pull the file
+
