@@ -50,7 +50,7 @@ else:
 
 	help_command = flag_index("-h")
 	if flags[help_command] != -1:
-		if ((len(argv) != flags[help_command] + 1) and not (argv[flags[help_command] + 1] in command_desc)):
+		if ((len(argv) != flags[help_command] + 1) and not (argv[flags[help_command] + 1] in command_desc)): #Error on this line when input is 'filename -h'
 			print_help()
 		else:
 			print('%-15s' % argv[flags[help_command] + 1], end="")
