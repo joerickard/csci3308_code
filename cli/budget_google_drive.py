@@ -1,5 +1,6 @@
 from sys import argv
-
+from sys import exit
+import os
 
 # Dictionary of commands that the CLI can perform
 command_desc = {
@@ -10,7 +11,8 @@ command_desc = {
 	"-share" : "This should be followed a list of files and then the name of the user that the files should be shared with. Format should follow '-share file1 file2 ... username",
 	"-unshare" : "This should be followed a list of files and then the name of the user that the files should be unshared with. Format should follow '-share file1 file2 ... username",
 	"-h" : "Opens the help menu. If help is desired for a particular command -h should be followed with the command signature i.e. '-h -push'",
-	"-login" : "Should be followed by a username '-u' tag and a password 'p' tag each with corresponding login credentials."
+	"-login" : "Should be followed by a username '-u' tag and a password 'p' tag each with corresponding login credentials. If both -u and -p are present the -login command will be signaled implicitly.",
+	"-logout" : "Removes stored credentials"
 }
 
 
@@ -33,6 +35,9 @@ print('\n')
 if len(argv) == 1:
 	print_help()
 else:
+
+	# # # # # # # # Help Command # # # # # # # # 
+
 	# Identifies whether (and where if applicable) the help command appears.
 	help_command = len(argv)
 	try:
@@ -49,3 +54,38 @@ else:
 			print_help_for(argv[help_command + 1])
 
 		print('\n')
+
+
+	# # # # # # # # Login Command # # # # # # # # 
+
+	Auth = ""
+
+	# This first try clause will see if a username and password are provided. If they are update the credentials file and store these for later use.
+	try:
+		user = argv[argv.index("-u") + 1]
+		password = argv[argv.index("-p") + 1]
+		Auth = user + password
+
+		credentials = open('auth.txt', 'w')
+
+		credentials.write(Auth)
+	except:
+	# In the event that no user and password is provided it will check for previously stored credentials here.
+		try:
+			credentials = open('auth.txt', 'r')
+			Auth = credentials.read()
+		except:
+			# Throw error message if no user or pass is provided.
+			print('You need to provide both the username and password in order to manipulate files')
+			exit(1)
+
+	# This is where the auth will be provided to the database.
+	print(Auth)
+
+	# # # # # # # # Login Command # # # # # # # # 
+	if '-logout' in argv:
+		try:
+			os.remove('auth.txt')
+			print('You are now logged out')
+		except:
+			print('You are already logged out')
