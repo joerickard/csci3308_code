@@ -4,7 +4,7 @@ import os
 import requests
 
 # This is the URL where info will be passed.
-destination = 'http://127.0.0.1:5000/'
+destination = 'http://127.0.0.1:5000'
 
 # Dictionary of commands that the CLI can perform
 command_desc = {
