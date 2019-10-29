@@ -1,12 +1,17 @@
-var mysql = require('mysql');
+// Create user string format
+// '{"username": "joerick69", "password": "123456"}'
 
+
+// connect to local mysql database
+var mysql = require('mysql');
 var con = mysql.createConnection({
     host: "localhost",
-    user: "Aiden",
+    user: "drive",
     password: "Freemann098%%",
     database: "cloud_storage"
 });
 
+// Parse JSON string for user data
 function createUser(userdata) {
     var user = userdata;
     var userObj = JSON.parse(user);
@@ -14,21 +19,32 @@ function createUser(userdata) {
     return userObj
 }
 
+// take user input from command line
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
   })
   
+  // prompt
   readline.question(`What's your user JSON?`, (userdata) => {
-    // console.log(`Hi ${userdata}!`)
+
+    // separate user data
     var user = createUser(userdata);
     var username = user.username;
     var password = user.password;
+    console.log(username);
+    console.log(password);
 
+    // connect to server
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
-        var sql = "INSERT INTO users (username, password) VALUES (" + username + ", " + password + ")";
+        
+        // insert user
+        var sql = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password + "')";
+
+
+
         con.query(sql, function (err, result) {
           if (err) throw err;
           console.log("1 record inserted");
@@ -36,13 +52,3 @@ const readline = require('readline').createInterface({
       });
     readline.close()
   })
-
-// con.connect(function(err) {
-//   if (err) throw err;
-//   console.log("Connected!");
-//   var sql = "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')";
-//   con.query(sql, function (err, result) {
-//     if (err) throw err;
-//     console.log("1 record inserted");
-//   });
-// });

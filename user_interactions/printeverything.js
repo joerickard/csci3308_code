@@ -1,3 +1,5 @@
+// Not tested, not sure if functional yet
+
 var mysql = require('mysql');
 
 var con = mysql.createConnection({

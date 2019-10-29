@@ -1,8 +1,10 @@
+// This script really is not necessary for more than one use
+
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
     host: "localhost",
-    user: "Aiden",
+    user: "drive",
     password: "Freemann098%%"
   });
 
