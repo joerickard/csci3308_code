@@ -37,9 +37,10 @@ def print_help_for(command):
 
 def send_req(t, request):
 	if (t == 'NewUser' or t == 'login' or t == 'DeleteUser'):
-		# r = requests.post(destination, data = request)
+		r = requests.post(destination + '/' + t, data = request)
 		print(request)
-	# return r
+	
+	return r
 
 # After this line is the main execution of the program. All functions above are auxillary to these tasks.
 
@@ -48,7 +49,7 @@ if len(argv) == 1:
 	print_help()
 else:
 
-	# # # # # # # # Help Command # # # # # # # #
+	# # # # # # # # Help Command # # # # # # # # 
 
 	# Identifies whether (and where if applicable) the help command appears.
 	help_command = len(argv)
@@ -68,7 +69,7 @@ else:
 		print('\n')
 
 
-	# # # # # # # # Login Command # # # # # # # #
+	# # # # # # # # Login Command # # # # # # # # 
 
 	Auth = ""
 
@@ -105,14 +106,14 @@ else:
 	json_login = '{"username": ' + user + ', "password": ' + password + '}'
 	status = send_req('login', json_login)
 
-
-	# # # # # # # # Delete User Command # # # # # # # #
+	
+	# # # # # # # # Delete Command # # # # # # # #
 	if 'delete' in argv:
 		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
 		json_Delete = '{"username": ' + user + ', "password": ' + password + '}'
 		send_req('DeleteUser', json_Delete)
 
-	# # # # # # # # Login Command # # # # # # # #
+	# # # # # # # # Login Command # # # # # # # # 
 	if '-logout' in argv:
 		try:
 			os.remove('auth.txt')
