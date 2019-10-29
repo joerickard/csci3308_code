@@ -4,7 +4,7 @@ import os
 import requests
 
 # This is the URL where info will be passed.
-destination = ''
+destination = 'http://127.0.0.1:5000/'
 
 # Dictionary of commands that the CLI can perform
 command_desc = {
@@ -36,9 +36,8 @@ def print_help_for(command):
 	print(command_desc[command] + "\n")
 
 def send_req(t, request):
-	if (t == 'NewUser' || t == 'login' || t == 'DeleteUser')
+	if (t == 'NewUser' or t == 'login' or t == 'DeleteUser'):
 		r = requests.post(destination, data = request)
-
 	return r
 
 # After this line is the main execution of the program. All functions above are auxillary to these tasks.
@@ -48,7 +47,7 @@ if len(argv) == 1:
 	print_help()
 else:
 
-	# # # # # # # # Help Command # # # # # # # # 
+	# # # # # # # # Help Command # # # # # # # #
 
 	# Identifies whether (and where if applicable) the help command appears.
 	help_command = len(argv)
@@ -68,7 +67,7 @@ else:
 		print('\n')
 
 
-	# # # # # # # # Login Command # # # # # # # # 
+	# # # # # # # # Login Command # # # # # # # #
 
 	Auth = ""
 
@@ -79,7 +78,7 @@ else:
 		Auth = user + password
 
 		credentials = open('auth.txt', 'w')
-
+		#if we run this multiple times will the credentials append and read in an unexpected way?
 		credentials.write(Auth)
 		if '-create' in argv:
 			json_NewUser = '{"Auth":' + Auth + '}'
@@ -96,16 +95,16 @@ else:
 			exit(1)
 
 	# This is where the auth will be provided to the database.
-	json_login = '{"Auth":'+Auth + '}'
+	json_login = '{"Auth":' + Auth + '}'
 	status = send_req('login', json_login)
 
-	
-	# # # # # # # # Delete Command # # # # # # # #
+
+	# # # # # # # # Delete User Command # # # # # # # #
 	if 'delete' in argv:
 		json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
 		send_req('DeleteUser', json_Delete)
 
-	# # # # # # # # Login Command # # # # # # # # 
+	# # # # # # # # Login Command # # # # # # # #
 	if '-logout' in argv:
 		try:
 			os.remove('auth.txt')
