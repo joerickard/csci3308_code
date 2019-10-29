@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/api/login", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         username = request.form['username']
@@ -21,4 +21,3 @@ def index():
 
 if __name__ == "__main__":
     app.run(debug=True)
-

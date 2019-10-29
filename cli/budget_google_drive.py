@@ -4,7 +4,7 @@ import os
 import requests
 
 # This is the URL where info will be passed.
-destination = 'http://127.0.0.1:5000'
+destination = 'http://127.0.0.1:5000/api'
 
 # Dictionary of commands that the CLI can perform
 command_desc = {
@@ -37,7 +37,7 @@ def print_help_for(command):
 
 def send_req(t, request):
 	if (t == 'NewUser' or t == 'login' or t == 'DeleteUser'):
-		# r = requests.post(destination, data = request)
+		r = requests.post(destination+'/'+t, json=request)
 		print(request)
 	# return r
 
@@ -102,7 +102,7 @@ else:
 
 	# This is where the auth will be provided to the database.
 	# json_login = '{"Auth":'+Auth + '}'
-	json_login = '{"username": ' + user + ', "password": ' + password + '}'
+	json_login = '{\'username\': ' + user + ', \'password\': ' + password + '}'
 	status = send_req('login', json_login)
 
 
