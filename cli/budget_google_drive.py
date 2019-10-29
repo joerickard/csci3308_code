@@ -36,10 +36,10 @@ def print_help_for(command):
 	print(command_desc[command] + "\n")
 
 def send_req(t, request):
-	if (t == 'NewUser' || t == 'login' || t == 'DeleteUser')
-		r = requests.post(destination, data = request)
-
-	return r
+	if (t == 'NewUser' or t == 'login' or t == 'DeleteUser'):
+		# r = requests.post(destination, data = request)
+		print(request)
+	# return r
 
 # After this line is the main execution of the program. All functions above are auxillary to these tasks.
 
@@ -80,29 +80,36 @@ else:
 
 		credentials = open('auth.txt', 'w')
 
-		credentials.write(Auth)
+		credentials.write(user + '\n')
+		credentials.write(password)
 		if '-create' in argv:
-			json_NewUser = '{"Auth":' + Auth + '}'
+			# json_NewUser = '{"Auth":' + Auth + '}'
+			json_NewUser = '{"username": ' + user + ', "password": ' + password + '}'
 			send_req('NewUser',json_NewUser)
 
 	except:
 	# In the event that no user and password is provided it will check for previously stored credentials here.
 		try:
 			credentials = open('auth.txt', 'r')
-			Auth = credentials.read()
+			user = credentials.readline().replace('\n', '')
+			password = credentials.readline()
+
+			Auth  = user + password
 		except:
 			# Throw error message if no user or pass is provided.
 			print('You need to provide both the username and password in order to manipulate files')
 			exit(1)
 
 	# This is where the auth will be provided to the database.
-	json_login = '{"Auth":'+Auth + '}'
+	# json_login = '{"Auth":'+Auth + '}'
+	json_login = '{"username": ' + user + ', "password": ' + password + '}'
 	status = send_req('login', json_login)
 
 	
 	# # # # # # # # Delete Command # # # # # # # #
 	if 'delete' in argv:
-		json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
+		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
+		json_Delete = '{"username": ' + user + ', "password": ' + password + '}'
 		send_req('DeleteUser', json_Delete)
 
 	# # # # # # # # Login Command # # # # # # # # 
