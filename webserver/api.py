@@ -12,8 +12,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route("/", methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        auth = request.form['Auth']
-        return auth
+        username = request.form['username']
+        password = request.form['password']
+        return username + ':' + password
     else:
         return "Hello Sailor!"
 

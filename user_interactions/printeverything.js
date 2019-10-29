@@ -15,6 +15,6 @@ con.connect(function(err) {
   var sql = "SELECT * FROM users";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("1 record inserted");
+    console.log("records printed");
   });
 });
