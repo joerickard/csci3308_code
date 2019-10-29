@@ -1,4 +1,4 @@
-// Create user string format
+// Delete user string format
 // '{"username": "joerick69", "password": "123456"}'
 
 
@@ -26,7 +26,7 @@ const readline = require('readline').createInterface({
   })
   
   // prompt
-  readline.question(`What's your user JSON?`, (userdata) => {
+  readline.question(`What's your user JSON to delete?`, (userdata) => {
 
     // separate user data
     var user = createUser(userdata);
@@ -38,14 +38,13 @@ const readline = require('readline').createInterface({
         if (err) throw err;
         console.log("Connected!");
         
-        // insert user
-        var sql = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password + "')";
-
+        // delete user
+        var sql = "DELETE FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
 
 
         con.query(sql, function (err, result) {
           if (err) throw err;
-          console.log("1 record inserted");
+          console.log("1 record deleted");
         });
       });
     readline.close()
