@@ -1,6 +1,10 @@
 from sys import argv
 from sys import exit
 import os
+import requests
+
+# This is the URL where info will be passed.
+destination = ''
 
 # Dictionary of commands that the CLI can perform
 command_desc = {
@@ -12,7 +16,9 @@ command_desc = {
 	"-unshare" : "This should be followed a list of files and then the name of the user that the files should be unshared with. Format should follow '-share file1 file2 ... username",
 	"-h" : "Opens the help menu. If help is desired for a particular command -h should be followed with the command signature i.e. '-h -push'",
 	"-login" : "Should be followed by a username '-u' tag and a password 'p' tag each with corresponding login credentials. If both -u and -p are present the -login command will be signaled implicitly.",
-	"-logout" : "Removes stored credentials"
+	"-logout" : "Removes stored credentials",
+	"-create" : "Indicates a new account should be made with given password and username./",
+	"-delete" : "Used with a logged in account. Deletes the account."
 }
 
 
@@ -28,6 +34,12 @@ def print_help():
 def print_help_for(command):
 	print('%-15s' % command, end="")
 	print(command_desc[command] + "\n")
+
+def send_req(t, request):
+	if (t == 'NewUser' || t == 'login' || t == 'DeleteUser')
+		r = requests.post(destination, data = request)
+
+	return r
 
 # After this line is the main execution of the program. All functions above are auxillary to these tasks.
 
@@ -69,6 +81,10 @@ else:
 		credentials = open('auth.txt', 'w')
 
 		credentials.write(Auth)
+		if '-create' in argv:
+			json_NewUser = '{"Auth":' + Auth + '}'
+			send_req('NewUser',json_NewUser)
+
 	except:
 	# In the event that no user and password is provided it will check for previously stored credentials here.
 		try:
@@ -80,7 +96,14 @@ else:
 			exit(1)
 
 	# This is where the auth will be provided to the database.
-	print(Auth)
+	json_login = '{"Auth":'+Auth + '}'
+	status = send_req('login', json_login)
+
+	
+	# # # # # # # # Delete Command # # # # # # # #
+	if 'delete' in argv:
+		json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
+		send_req('DeleteUser', json_Delete)
 
 	# # # # # # # # Login Command # # # # # # # # 
 	if '-logout' in argv:
