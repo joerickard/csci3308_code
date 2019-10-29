@@ -39,7 +39,8 @@ def send_req(t, request):
 	if (t == 'NewUser' or t == 'login' or t == 'DeleteUser'):
 		r = requests.post(destination+'/'+t, json=request)
 		print(request)
-	# return r
+
+	return r
 
 # After this line is the main execution of the program. All functions above are auxillary to these tasks.
 
@@ -106,7 +107,7 @@ else:
 	status = send_req('login', json_login)
 
 
-	# # # # # # # # Delete User Command # # # # # # # #
+	# # # # # # # # Delete Command # # # # # # # #
 	if 'delete' in argv:
 		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
 		json_Delete = '{"username": ' + user + ', "password": ' + password + '}'
