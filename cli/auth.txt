@@ -1,2 +1,2 @@
 joe
-passwrd
+passwd

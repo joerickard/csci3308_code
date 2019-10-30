@@ -4,7 +4,7 @@ import os
 import requests
 
 # This is the URL where info will be passed.
-destination = 'http://127.0.0.1:5000/api'
+destination = 'http://127.0.0.1:5000/api/'
 
 # Dictionary of commands that the CLI can perform
 command_desc = {
@@ -36,9 +36,10 @@ def print_help_for(command):
 	print(command_desc[command] + "\n")
 
 def send_req(t, request):
-	if (t == 'NewUser' or t == 'login' or t == 'DeleteUser'):
-		r = requests.post(destination+'/'+t, json=request)
+	if (t == 'newUser' or t == 'login' or t == 'deleteUser'):
+		r = requests.post(destination + t, json=request)
 		print(request)
+		print([x for x in r])
 
 	return r
 
@@ -69,15 +70,12 @@ else:
 		print('\n')
 
 
-	# # # # # # # # Login Command # # # # # # # #
-
-	Auth = ""
+	# # # # # # # # Login User Command # # # # # # # #
 
 	# This first try clause will see if a username and password are provided. If they are update the credentials file and store these for later use.
 	try:
 		user = argv[argv.index("-u") + 1]
 		password = argv[argv.index("-p") + 1]
-		Auth = user + password
 
 		credentials = open('auth.txt', 'w')
 
@@ -85,8 +83,8 @@ else:
 		credentials.write(password)
 		if '-create' in argv:
 			# json_NewUser = '{"Auth":' + Auth + '}'
-			json_NewUser = '{"username": ' + user + ', "password": ' + password + '}'
-			send_req('NewUser',json_NewUser)
+			json_newUser = {"username": user, "password": password}
+			send_req('newUser',json_newUser)
 
 	except:
 	# In the event that no user and password is provided it will check for previously stored credentials here.
@@ -94,8 +92,6 @@ else:
 			credentials = open('auth.txt', 'r')
 			user = credentials.readline().replace('\n', '')
 			password = credentials.readline()
-
-			Auth  = user + password
 		except:
 			# Throw error message if no user or pass is provided.
 			print('You need to provide both the username and password in order to manipulate files')
@@ -103,17 +99,18 @@ else:
 
 	# This is where the auth will be provided to the database.
 	# json_login = '{"Auth":'+Auth + '}'
-	json_login = '{\'username\': ' + user + ', \'password\': ' + password + '}'
+	json_login = {"username": user, "password": password}
 	status = send_req('login', json_login)
 
 
-	# # # # # # # # Delete Command # # # # # # # #
+	# # # # # # # # Delete User Command # # # # # # # #
 	if 'delete' in argv:
 		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
-		json_Delete = '{"username": ' + user + ', "password": ' + password + '}'
-		send_req('DeleteUser', json_Delete)
+		json_delete = {"username": user, "password": password}
+		send_req('deleteUser', json_delete)
 
-	# # # # # # # # Login Command # # # # # # # #
+	# # # # # # # # LogOut User Command # # # # # # # #
+	#local log-out by removing credentials from environment
 	if '-logout' in argv:
 		try:
 			os.remove('auth.txt')

@@ -24,7 +24,7 @@ const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
   })
-  
+
   // prompt
   readline.question(`What's your user JSON to delete?`, (userdata) => {
 
@@ -37,7 +37,7 @@ const readline = require('readline').createInterface({
     con.connect(function(err) {
         if (err) throw err;
         console.log("Connected!");
-        
+
         // delete user
         var sql = "DELETE FROM users WHERE username = '" + username + "' AND password = '" + password + "'";
 
