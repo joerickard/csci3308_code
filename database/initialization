@@ -1,0 +1,10 @@
+create database SimpleStore;
+
+use SimpleStore;
+
+create table users(uid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL);
+
+create table files(fid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, filename VARCHAR(255) NOT NULL, filepath VARCHAR(255) NOT NULL);
+
+create table permissions(pid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, fid INT NOT NULL, uid INT NOT NULL);
+
