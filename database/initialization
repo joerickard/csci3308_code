@@ -1,10 +1,10 @@
-create database SimpleStore;
+create schema simplestore;
 
-use SimpleStore;
+set search_path to simplestore, public;
 
-create table users(uid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, username VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL);
+create table simplestore.users(uid integer primary key, username text not null, password text not null);
 
-create table files(fid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, filename VARCHAR(255) NOT NULL, filepath VARCHAR(255) NOT NULL);
+create table simplestore.files(fid integer primary key, filename text not null, filepath text not null);
 
-create table permissions(pid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, fid INT NOT NULL, uid INT NOT NULL);
+create table simplestore.permissions(pid integer primary key, fid integer not null, uid integer not null);
 

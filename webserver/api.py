@@ -3,12 +3,20 @@ from flask_restful import Resource, Api
 from sqlalchemy import create_engine, MetaData, Table
 import json
 
-engine = create_engine('mysql://root@localhost:3306/SimpleStore', convert_unicode=True)
+POSTGRES = {
+    'user': 'postgres',
+    'pw': '',
+    'db': 'postgres',
+    'host': 'localhost',
+    'port': '5432',
+}
+
+engine = create_engine('postgresql://%(user)s:\%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES, convert_unicode=True)
 metadata = MetaData(bind=engine)
 
-users = Table('users', metadata, autoload=True)
-files = Table('files', metadata, autoload=True)
-permissions = Table('permissions', metadata, autoload=True)
+users = Table('simplestore.users', metadata, autoload=True)
+files = Table('simplestore.files', metadata, autoload=True)
+permissions = Table('simplestore.permissions', metadata, autoload=True)
 
 con = engine.connect()
 
