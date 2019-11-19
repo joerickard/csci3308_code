@@ -1,3 +1,4 @@
+
 create schema simplestore;
 
 set search_path to simplestore, public;

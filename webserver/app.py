@@ -1,29 +1,14 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-from sqlalchemy import create_engine, MetaData, Table
+from database import db_session
+from models import User, File, Permission
 import json
 
-POSTGRES = {
-    'user': 'postgres',
-    'pw': '',
-    'db': 'postgres',
-    'host': 'localhost',
-    'port': '5432',
-}
-
-engine = create_engine('postgresql://%(user)s:\%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES, convert_unicode=True)
-metadata = MetaData(bind=engine)
-
-users = Table('simplestore.users', metadata, autoload=True)
-files = Table('simplestore.files', metadata, autoload=True)
-permissions = Table('simplestore.permissions', metadata, autoload=True)
-
-con = engine.connect()
-
-
-
 app = Flask(__name__)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
 
 @app.route("/api")
 def index():
@@ -48,7 +33,7 @@ def login():
         print(request.data)
         username = request.json['username']
         password = request.json['password']
-        return {"username": username, "password": password}
+        return {"method": "login", "username": username, "password": password, "status": "recieved"}
     else:
         return "Must POST to this endpoint to login a user."
 
@@ -56,8 +41,12 @@ def login():
 def newUser():
     if request.method == 'POST':
         print(request.data)
-        engine.connect().execute(Table('users', metadata, autoload=True).insert(), name=request.json['username'], password=request.json['password'])
-        return {"status": "recieved"}
+        username = request.json['username']
+        password = request.json['password']
+        u = User(username, password)
+        db_session.add(u)
+        db_session.commit()
+        return {"method": "newUser", "username": username, "password": password, "status": "recieved"}
     else:
         return "Must POST to this endpoint to create a user account."
 
@@ -67,7 +56,7 @@ def deleteUser():
         print(request.data)
         username = request.json['username']
         password = request.json['password']
-        return {"username": username, "password": password}
+        return {"method": "deleteUser", "username": username, "password": password, "status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."
 
