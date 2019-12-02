@@ -1,2 +1,2 @@
-joetest
-passtest
+joe
+myPass

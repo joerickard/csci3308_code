@@ -44,8 +44,9 @@ def newUser():
         username = request.json['username']
         password = request.json['password']
         u = User(username, password)
-        db_session.add(u)
-        db_session.commit()
+        connection = db_session()
+        connection.add(u)
+        connection.commit()
         return {"method": "newUser", "username": username, "password": password, "status": "recieved"}
     else:
         return "Must POST to this endpoint to create a user account."

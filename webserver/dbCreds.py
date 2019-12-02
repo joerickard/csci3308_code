@@ -1,7 +1,7 @@
 def getURI():
     POSTGRES = {
-        'user': 'simpleStoreConnection',
-        'pw': 'simplestore',
+        'user': 'joe',
+        'pw': '',
         'db': 'postgres',
         'host': 'localhost',
         'port': '5432',

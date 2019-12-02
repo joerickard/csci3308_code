@@ -13,7 +13,7 @@ class User(object):
         return '<User %r>' % (self.username)
 
 users = Table('users', metadata,
-    Column('id', Integer, primary_key=True),
+    Column('uid', Integer, primary_key=True),
     Column('username', String(255), unique=True),
     Column('password', String(255), unique=True)
 )
@@ -29,8 +29,8 @@ class File(object):
     def __repr__(self):
         return '<File %r>' % (self.fileName)
 
-files = Table('users', metadata,
-    Column('id', Integer, primary_key=True),
+files = Table('files', metadata,
+    Column('fid', Integer, primary_key=True),
     Column('fileName', String(255), unique=True),
     Column('filePath', String(255), unique=True)
 )
@@ -46,8 +46,8 @@ class Permission(object):
     def __repr__(self):
         return '<Permission %r, %r>' % (self.userID, self.fileID)
 
-permissions = Table('users', metadata,
-    Column('id', Integer, primary_key=True),
+permissions = Table('permissions', metadata,
+    Column('pid', Integer, primary_key=True),
     Column('fileID', Integer, unique=True),
     Column('userID', Integer, unique=True)
 )
