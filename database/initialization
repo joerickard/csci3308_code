@@ -1,0 +1,6 @@
+
+create table public.users(uid serial primary key, username text not null, password text not null);
+
+create table public.files(fid serial primary key, filename text not null, filepath text not null);
+
+create table public.permissions(pid serial primary key, fid integer not null, uid integer not null);
