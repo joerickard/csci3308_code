@@ -1,2 +1,2 @@
-joe
-myPass
+NewUser
+NewPassword
