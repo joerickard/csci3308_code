@@ -41,6 +41,15 @@ def send_req(t, request):
 		print(request)
 		print([x for x in r])
 
+
+
+	return r
+
+def send_file(t, request, filename):
+	if (t == 'upload'):
+		with open(filename, 'r') as file:
+			r = requests.post(destination + t, files={filename:file})
+
 	return r
 
 # After this line is the main execution of the program. All functions above are auxillary to these tasks.
@@ -104,12 +113,12 @@ else:
 
 
 	# # # # # # # # Delete User Command # # # # # # # #
-	if 'delete' in argv:
+	if '-delete' in argv:
 		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
 		json_delete = {"username": user, "password": password}
 		send_req('deleteUser', json_delete)
 
-	# # # # # # # # LogOut User Command # # # # # # # #
+	# # # # # # # # Logout User Command # # # # # # # #
 	#local log-out by removing credentials from environment
 	if '-logout' in argv:
 		try:
@@ -117,3 +126,23 @@ else:
 			print('You are now logged out')
 		except:
 			print('You are already logged out')
+
+	# # # # # # # # Push Command # # # # # # # #
+	if '-push' in argv:
+		index = argv.index('-push') + 1
+		while (index < len(argv) and argv[index] not in command_desc):
+			if (os.path.exists(argv[index])):
+				send_file('upload', json_login, argv[index])
+			else:
+				print('%s is not a valid file' % argv[index])
+
+			index += 1
+
+
+
+
+
+
+
+
+

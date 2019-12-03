@@ -61,6 +61,14 @@ def deleteUser():
     else:
         return "Must POST to this endpoint to delete a user account."
 
+@app.route("/api/upload", methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        print('file sent')
+        return {"status": "recieved"}
+    else:
+        return "Must POST to this endpoint to delete a user account."
+
 
 if __name__ == "__main__":
     app.run(debug=True)
