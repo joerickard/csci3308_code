@@ -34,7 +34,7 @@ def login():
         username = request.json['username']
         password = request.json['password']
         q = db_session().query(User).filter(User.username == username and User.password == password).all()
-        
+
         if (len(q) > 0):
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":True}
         else:
@@ -75,7 +75,7 @@ def deleteUser():
             connection.commit()
             return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": True}
         else:
-            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}            
+            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}
     else:
         return "Must POST to this endpoint to delete a user account."
 
