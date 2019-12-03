@@ -36,12 +36,10 @@ def print_help_for(command):
 	print(command_desc[command] + "\n")
 
 def send_req(t, request):
-	if (t == 'newUser' or t == 'login' or t == 'deleteUser'):
-		r = requests.post(destination + t, json=request)
-		print(request)
-		print([x for x in r])
-
-
+	
+	r = requests.post(destination + t, json=request)
+	print(request)
+	# print([x for x in r])
 
 	return r
 
@@ -93,7 +91,7 @@ else:
 		if '-create' in argv:
 			# json_NewUser = '{"Auth":' + Auth + '}'
 			json_newUser = {"username": user, "password": password}
-			send_req('newUser',json_newUser)
+			status = send_req('newUser',json_newUser)
 
 	except:
 	# In the event that no user and password is provided it will check for previously stored credentials here.
@@ -116,7 +114,7 @@ else:
 	if '-delete' in argv:
 		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
 		json_delete = {"username": user, "password": password}
-		send_req('deleteUser', json_delete)
+		status = send_req('deleteUser', json_delete)
 
 	# # # # # # # # Logout User Command # # # # # # # #
 	#local log-out by removing credentials from environment
@@ -132,10 +130,46 @@ else:
 		index = argv.index('-push') + 1
 		while (index < len(argv) and argv[index] not in command_desc):
 			if (os.path.exists(argv[index])):
-				send_file('upload', json_login, argv[index])
+				 resp = send_file('upload', json_login, argv[index])
 			else:
 				print('%s is not a valid file' % argv[index])
 
+			index += 1
+
+	# # # # # # # # Extract Command # # # # # # # #
+	if '-extract' in argv:
+		index = argv.index('-extract') + 1
+		while (index < len(argv) and argv[index] not in command_desc):
+			json_extract = {"username": user, "password": password, "file": argv[index]}
+			status = send_req('download', json_extract)
+
+
+			index += 1
+
+	# # # # # # # # Share Command # # # # # # # #
+	if '-share' in argv:
+		index = user_index = argv.index('-share') + 1
+		while (user_index < len(argv) and argv[user_index] not in command_desc):
+			user_index += 1
+
+		user_index -= 1
+
+		while index < user_index:
+			json_share = {"username": user, "password": password, "file": argv[index], "recipient": argv[user_index]}
+			status = send_req('share', json_share)
+			index += 1
+
+	# # # # # # # # Share Command # # # # # # # #
+	if '-unshare' in argv:
+		index = user_index = argv.index('-unshare') + 1
+		while (user_index < len(argv) and argv[user_index] not in command_desc):
+			user_index += 1
+
+		user_index -= 1
+
+		while index < user_index:
+			json_share = {"username": user, "password": password, "file": argv[index], "recipient": argv[user_index]}
+			status = send_req('unshare', json_share)
 			index += 1
 
 

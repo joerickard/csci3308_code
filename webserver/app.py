@@ -18,7 +18,7 @@ def index():
 	"-extract" : "Following extract there should be a list of at least 1 file to be retrieved from the cloud on the form '-extract file1 file2 ...'.",
 	"-push" : "This should have a list of at least 1 file to be put into the cloud. The format is as follows '-push file1 file2 file3'",
 	"-share" : "This should be followed a list of files and then the name of the user that the files should be shared with. Format should follow '-share file1 file2 ... username",
-	"-unshare" : "This should be followed a list of files and then the name of the user that the files should be unshared with. Format should follow '-share file1 file2 ... username",
+	"-unshare" : "This should be followed a list of files and then the name of the user that the files should be unshared with. Format should follow '-unshare file1 file2 ... username",
 	"-h" : "Opens the help menu. If help is desired for a particular command -h should be followed with the command signature i.e. '-h -push'",
 	"-login" : "Should be followed by a username '-u' tag and a password 'p' tag each with corresponding login credentials. If both -u and -p are present the -login command will be signaled implicitly.",
 	"-logout" : "Removes stored credentials",
@@ -65,6 +65,30 @@ def deleteUser():
 def upload():
     if request.method == 'POST':
         print('file sent')
+        return {"status": "recieved"}
+    else:
+        return "Must POST to this endpoint to delete a user account."
+
+@app.route("/api/download", methods=['GET', 'POST'])
+def download():
+    if request.method == 'POST':
+        print('file requested')
+        return {"status": "recieved"}
+    else:
+        return "Must POST to this endpoint to delete a user account."
+
+@app.route("/api/share", methods=['GET', 'POST'])
+def share():
+    if request.method == 'POST':
+        print('file permissions added')
+        return {"status": "recieved"}
+    else:
+        return "Must POST to this endpoint to delete a user account."
+
+@app.route("/api/unshare", methods=['GET', 'POST'])
+def unshare():
+    if request.method == 'POST':
+        print('file permissions revoked')
         return {"status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."
