@@ -33,7 +33,12 @@ def login():
         print(request.data)
         username = request.json['username']
         password = request.json['password']
-        return {"method": "login", "username": username, "password": password, "status": "recieved"}
+        q = db_session().query(User).filter(User.username == username and User.password == password).all()
+        
+        if (len(q) > 0):
+            return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":True}
+        else:
+            return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":False}
     else:
         return "Must POST to this endpoint to login a user."
 
@@ -44,10 +49,15 @@ def newUser():
         username = request.json['username']
         password = request.json['password']
         u = User(username, password)
-        connection = db_session()
-        connection.add(u)
-        connection.commit()
-        return {"method": "newUser", "username": username, "password": password, "status": "recieved"}
+        q = db_session().query(User).filter(User.username == username).count()
+        if (q == 0):
+            connection = db_session()
+            connection.add(u)
+            connection.commit()
+            return {"method": "newUser", "username": username, "password": password, "status": "recieved", "created": True}
+        else:
+            return {"method": "newUser", "username": username, "password": password, "status": "recieved", "created": False}
+
     else:
         return "Must POST to this endpoint to create a user account."
 
@@ -57,7 +67,15 @@ def deleteUser():
         print(request.data)
         username = request.json['username']
         password = request.json['password']
-        return {"method": "deleteUser", "username": username, "password": password, "status": "recieved"}
+        connection = db_session()
+        u = User(username, password)
+        q = connection.query(User.uid).filter(User.username == username and User.password == password).first()
+        if (q != None):
+            connection.query(User).filter(User.uid == q).delete()
+            connection.commit()
+            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": True}
+        else:
+            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}            
     else:
         return "Must POST to this endpoint to delete a user account."
 

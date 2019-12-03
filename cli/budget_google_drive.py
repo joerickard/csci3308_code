@@ -2,6 +2,7 @@ from sys import argv
 from sys import exit
 import os
 import requests
+import json
 
 # This is the URL where info will be passed.
 destination = 'http://127.0.0.1:5000/api/'
@@ -92,7 +93,10 @@ else:
 			# json_NewUser = '{"Auth":' + Auth + '}'
 			json_newUser = {"username": user, "password": password}
 			status = send_req('newUser',json_newUser)
-
+			if (json.loads(status.text)['created']):
+				print('Account creaetd successfully! Username: %s\t Password: %s' % (user, password))
+			else:
+				print('There is already a user with that name!')
 	except:
 	# In the event that no user and password is provided it will check for previously stored credentials here.
 		try:
@@ -109,12 +113,20 @@ else:
 	json_login = {"username": user, "password": password}
 	status = send_req('login', json_login)
 
-
+	if (json.loads(status.text)['loggedin']):
+		print('Successfully logged in!')
+	else:
+		print('You must log in to use this service!')
+		exit(1)
 	# # # # # # # # Delete User Command # # # # # # # #
 	if '-delete' in argv:
 		# json_Delete = '{"Auth":'+Auth+', "UID":'+status.raw+'}'
 		json_delete = {"username": user, "password": password}
 		status = send_req('deleteUser', json_delete)
+		if (json.loads(status.text)['deleted']):
+			print('The account %s has been successfully deleted.' % (user))
+		else:
+			print('Error. Account not delted')
 
 	# # # # # # # # Logout User Command # # # # # # # #
 	#local log-out by removing credentials from environment
