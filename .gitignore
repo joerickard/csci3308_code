@@ -5,6 +5,7 @@ __pycache__/
 
 #creds
 db_creds.py
+auth.txt
 
 # C extensions
 *.so
