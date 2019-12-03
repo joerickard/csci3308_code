@@ -83,6 +83,10 @@ def deleteUser():
 def upload():
     if request.method == 'POST':
         print('file sent')
+        # file = request.json['filename']
+        files = request.files
+        for f in files:
+            files[f].save('./webserver/files/'+str(f))
         return {"status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."

@@ -47,7 +47,7 @@ def send_req(t, request):
 def send_file(t, request, filename):
 	if (t == 'upload'):
 		with open(filename, 'r') as file:
-			r = requests.post(destination + t, files={filename:file})
+			r = requests.post(destination + t, json=request,files={filename:file})
 
 	return r
 
@@ -116,7 +116,7 @@ else:
 	if (json.loads(status.text)['loggedin']):
 		print('Successfully logged in!')
 	else:
-		print('You must log in to use this service!')
+		print('Not logged in! You must log in to use this service!')
 		exit(1)
 	# # # # # # # # Delete User Command # # # # # # # #
 	if '-delete' in argv:
@@ -142,7 +142,8 @@ else:
 		index = argv.index('-push') + 1
 		while (index < len(argv) and argv[index] not in command_desc):
 			if (os.path.exists(argv[index])):
-				 resp = send_file('upload', json_login, argv[index])
+				json_push = {"username": user, "password": password, "file": argv[index]}
+				resp = send_file('upload', json_login, argv[index])
 			else:
 				print('%s is not a valid file' % argv[index])
 
