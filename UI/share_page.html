@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title> Share </title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+		<title>formDemo.html</title>
+    <meta charset = "UTF-8" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg" style="background-color: #73006f;">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon" ></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarText">
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item active">
+			<span class="navbar-brand mb-0 h1">
+				<img src="icon_simpleStore.png" alt="SimpleStore_logo" style=" width: 30px; height: 30px;">
+				<span style='color: white; padding-left :10px;' class="font-weight-bold">SimpleStore</span>
+			</span>
+		</li>
+	</ul>
+	<div class="form-inline my-2 my-lg-0">
+		<p style='color: white; padding-right: 10px'> Hi user </p>
+		<button class="btn btn-light my-2 my-sm-0" type="submit">Logout</button>
+	</div>
+	</div>
+</nav>
+<div class="container" >
+	<p>
+          <label>Add User</label>
+          <input type = "text"
+                 id = "USER"
+                 value = "Enter Email"/>
+  </p>
+	<img class="rounded img-fluid" src="./simpleStore_assets/btn_addUser.png">
+
+	<table class="table table-bordered" id="file_table" style="height: 100px;">
+	<thead style="background-color: #73006f;">
+		<tr>
+			<th style='color: white'>filename </th>
+			<th class="text-center" style='color: white'>
+				 <img class="rounded img-fluid" src="./simpleStore_assets/icon_user.png">
+			  </th>
+			<th class="text-center"style='color: white' colspan="2">  </th>
+		</tr>
+	</tread>
+	<tbody style="background-color: #ffffff;">
+		<tr>
+		</tr>
+	</tbody>
+	</table>
+	<script>
+		var array = [["file1","3","icon","icon"],
+								["file2","10","icon","icon"],
+								["file3"," ","icon","icon"]],//needs to take the info from the database to then post to make this array so it can print
+								file_table = document.getElementById("file_table");
+		for(var i = 0; i < array.length; i++)
+		{
+			var newRow = file_table.insertRow(file_table.length);
+			for(var j = 0; j < array[i].length; j++)
+			{
+				var cell = newRow.insertCell(j);
+				cell.innerHTML = array[i][j];
+			}
+		}
+	</script>
+</div>
+
+<!--===============================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/daterangepicker/moment.min.js"></script>
+	<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
