@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory, send_file
+from flask import Flask, request, send_from_directory, send_file, render_template
 from flask_restful import Resource, Api
 from database import db_session
 from models import User, File, Permission
@@ -40,7 +40,8 @@ def login():
         else:
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":False}
     else:
-        return "Must POST to this endpoint to login a user."
+        return render_template('login.html')
+
 
 @app.route("/api/newUser", methods=['GET', 'POST'])
 def newUser():
@@ -59,7 +60,7 @@ def newUser():
             return {"method": "newUser", "username": username, "password": password, "status": "recieved", "created": False}
 
     else:
-        return "Must POST to this endpoint to create a user account."
+        return render_template('create_an_acount.html')
 
 @app.route("/api/deleteUser", methods=['GET', 'POST'])
 def deleteUser():
@@ -94,9 +95,10 @@ def upload():
         connection = db_session()
         userTableEntry = connection.query(User).filter(User.username == resp['username']).first()
         filePath = './webserver/files/'+f.filename
-        newFile = File(f.filename, filePath)
-        connection.add(newFile)
-        connection.commit()
+        if (len(connection.query(File).filter(File.filepath == filepath).first()) == 0):
+            newFile = File(f.filename, filePath)
+            connection.add(newFile)
+            connection.commit()
 
         fileTableEntry = connection.query(File).filter(File.filepath == filePath).first()
         newPermission = Permission(fileTableEntry.fid, userTableEntry.uid)
@@ -120,7 +122,7 @@ def download():
             if (connection.query(Permission).filter(Permission.fid == fid[0], Permission.uid == uid[0]).first() is not None):
                 file = connection.query(File.filename).filter(File.fid == fid[0]).first()[0]
                 return send_file(os.path.dirname(os.path.abspath(__file__)) + '/files/' + file,attachment_filename=file,as_attachment=True)
-        
+
         return {'status':False}
     else:
         return "Must POST to this endpoint to delete a user account."
@@ -144,7 +146,7 @@ def share():
                     connection.commit()
                     return {"status": True}
 
-        
+
         return {"status": False}
     else:
         return "Must POST to this endpoint to delete a user account."
@@ -176,7 +178,7 @@ def unshare():
                             connection.query(Permission).filter(Permission.pid == pid[0]).delete()
                             connection.commit()
                             return {"status": True}
-        
+
         return {"status": False}
     else:
         return "Must POST to this endpoint to delete a user account."
