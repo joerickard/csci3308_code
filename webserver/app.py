@@ -33,9 +33,8 @@ def login():
         print(request.data)
         username = request.json['username']
         password = request.json['password']
-        q = db_session().query(User).filter(User.username == username and User.password == password).all()
-
-        if (len(q) > 0):
+        q = db_session().query(User).filter(User.username == username).first()
+        if (q and q.password == password):
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":True}
         else:
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":False}
@@ -68,14 +67,17 @@ def deleteUser():
         username = request.json['username']
         password = request.json['password']
         connection = db_session()
-        u = User(username, password)
-        q = connection.query(User.uid).filter(User.username == username and User.password == password).first()
-        if (q != None):
-            connection.query(User).filter(User.uid == q).delete()
+        q = db_session().query(User).filter(User.username == username).first()
+
+        ident = None
+        if (q and q.password == password):
+            ident = q.uid
+        if (ident != None):
+            connection.query(User).filter(User.uid == ident).delete()
             connection.commit()
             return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": True}
         else:
-            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}
+            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}            
     else:
         return "Must POST to this endpoint to delete a user account."
 
@@ -87,6 +89,7 @@ def upload():
         files = request.files
         for f in files:
             files[f].save('./webserver/files/'+str(f))
+
         return {"status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."

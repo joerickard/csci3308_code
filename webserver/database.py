@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import scoped_session, sessionmaker
-from db_creds import getURI
+from dbCreds import getURI
 
 
 engine = create_engine(getURI(), convert_unicode=True)
