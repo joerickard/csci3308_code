@@ -46,8 +46,11 @@ def send_req(t, request):
 
 def send_file(t, request, filename):
 	if (t == 'upload'):
-		with open(filename, 'r') as file:
-			r = requests.post(destination + t, json=request,files={filename:file})
+		files = [
+			('file', (os.path.basename(filename), open(filename, 'rb'), 'application/octet')),
+			('json', ('json', json.dumps(request), 'application/json')),
+		]
+		r = requests.post(destination + t, files=files)
 
 	return r
 
@@ -143,7 +146,7 @@ else:
 		while (index < len(argv) and argv[index] not in command_desc):
 			if (os.path.exists(argv[index])):
 				json_push = {"username": user, "password": password, "file": argv[index]}
-				resp = send_file('upload', json_login, argv[index])
+				resp = send_file('upload', json_push, argv[index])
 			else:
 				print('%s is not a valid file' % argv[index])
 
