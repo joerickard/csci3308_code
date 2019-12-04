@@ -40,7 +40,7 @@ def login():
         else:
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":False}
     else:
-        return render_template('login.html')
+        return render_template('index.html')
 
 
 @app.route("/api/newUser", methods=['GET', 'POST'])
@@ -60,7 +60,7 @@ def newUser():
             return {"method": "newUser", "username": username, "password": password, "status": "recieved", "created": False}
 
     else:
-        return render_template('newUser.html')
+        return render_template('index.html')
 
 @app.route("/api/deleteUser", methods=['GET', 'POST'])
 def deleteUser():
@@ -81,7 +81,8 @@ def deleteUser():
         else:
             return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}
     else:
-        return "Must POST to this endpoint to delete a user account."
+        return render_template('index.html')
+        #return "Must POST to this endpoint to delete a user account."
 
 @app.route("/api/upload", methods=['GET', 'POST'])
 def upload():
@@ -108,7 +109,8 @@ def upload():
         f.save(filePath)
         return {"status": "recieved"}
     else:
-        return "Must POST to this endpoint to delete a user account."
+        return render_template('index.html')
+        #return "Must POST to this endpoint to delete a user account."
 
 @app.route("/api/download", methods=['GET', 'POST'])
 def download():
@@ -125,7 +127,8 @@ def download():
 
         return {'status':False}
     else:
-        return "Must POST to this endpoint to delete a user account."
+        return render_template('index.html')
+        #return "Must POST to this endpoint to delete a user account."
 
 @app.route("/api/share", methods=['GET', 'POST'])
 def share():
@@ -149,7 +152,8 @@ def share():
 
         return {"status": False}
     else:
-        return "Must POST to this endpoint to delete a user account."
+        return render_template('index.html')
+        #return "Must POST to this endpoint to delete a user account."
 
 @app.route("/api/unshare", methods=['GET', 'POST'])
 def unshare():
@@ -181,7 +185,8 @@ def unshare():
 
         return {"status": False}
     else:
-        return "Must POST to this endpoint to delete a user account."
+        return render_template('index.html')
+        #return "Must POST to this endpoint to delete a user account."
 
 if __name__ == "__main__":
     app.run(debug=True)
