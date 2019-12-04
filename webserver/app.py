@@ -85,12 +85,24 @@ def deleteUser():
 def upload():
     if request.method == 'POST':
         f = request.files['file']
-        print(request.files['json'])
+        print('f:', f)
 
         resp = json.load(request.files['json'])
-        print(resp)
-        f.save('./webserver/files/'+f.filename)
+        print('resp:' ,resp)
 
+        connection = db_session()
+        userTableEntry = connection.query(User).filter(User.username == resp['username']).first()
+        filePath = './webserver/files/'+f.filename
+        newFile = File(f.filename, filePath)
+        connection.add(newFile)
+        connection.commit()
+
+        fileTableEntry = connection.query(File).filter(File.filepath == filePath).first()
+        newPermission = Permission(fileTableEntry.fid, userTableEntry.uid)
+        connection.add(newPermission)
+        connection.commit()
+
+        f.save(filePath)
         return {"status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."
