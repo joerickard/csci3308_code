@@ -28,7 +28,7 @@
 <body>
 	<nav class="navbar navbar-light" style="background-color: #73006f;">
 	  <span class="navbar-brand mb-0 h1">
-			<img src="icon_simpleStore.png" alt="SimpleStore_logo" style=" width: 30px; height: 30px;">
+			<img src="{{ url_for('static', filename='images/icon_simpleStore.png') }}" alt="SimpleStore_logo" style=" width: 30px; height: 30px;">
 			<span style='color: white; padding-left :10px;' class="font-weight-bold">SimpleStore</span>
 		</span>
 	</nav>
@@ -62,7 +62,7 @@
 							Don’t have an account?
 						</span>
 
-						<a href="create_an_account.html" class="txt3">
+						<a href="newUser" class="txt3">
 							<p style='color: #73006f' >Sign up now</p>
 						</a>
 					</div>

@@ -60,7 +60,7 @@ def newUser():
             return {"method": "newUser", "username": username, "password": password, "status": "recieved", "created": False}
 
     else:
-        return render_template('create_an_acount.html')
+        return render_template('newUser.html')
 
 @app.route("/api/deleteUser", methods=['GET', 'POST'])
 def deleteUser():
