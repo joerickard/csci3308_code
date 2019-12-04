@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request
 from flask_restful import Resource, Api
 from database import db_session
 from models import User, File, Permission
@@ -33,15 +33,13 @@ def login():
         print(request.data)
         username = request.json['username']
         password = request.json['password']
-        q = db_session().query(User).filter(User.username == username and User.password == password).all()
-        print(q)
-        if (len(q) > 0):
+        q = db_session().query(User).filter(User.username == username).first()
+        if (q and q.password == password):
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":True}
         else:
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":False}
     else:
-        return render_template('login.html')
-        #return "Must POST to this endpoint to login a user."
+        return "Must POST to this endpoint to login a user."
 
 @app.route("/api/newUser", methods=['GET', 'POST'])
 def newUser():
@@ -69,25 +67,31 @@ def deleteUser():
         username = request.json['username']
         password = request.json['password']
         connection = db_session()
-        u = User(username, password)
-        q = connection.query(User.uid).filter(User.username == username and User.password == password).first()
-        if (q != None):
-            connection.query(User).filter(User.uid == q).delete()
+        q = db_session().query(User).filter(User.username == username).first()
+
+        ident = None
+        if (q and q.password == password):
+            ident = q.uid
+        if (ident != None):
+            connection.query(User).filter(User.uid == ident).delete()
             connection.commit()
             return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": True}
         else:
-            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}
+            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}            
     else:
         return "Must POST to this endpoint to delete a user account."
 
 @app.route("/api/upload", methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        print('file sent')
-        # file = request.json['filename']
-        files = request.files
-        for f in files:
-            files[f].save('./webserver/files/'+str(f))
+        f = request.files['file']
+        print(request.files['json'])
+
+        resp = json.load(request.files['json'])
+        print(resp)
+        f.save('./webserver/files/'+f.filename)
+
+
         return {"status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."
