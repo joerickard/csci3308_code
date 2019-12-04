@@ -39,8 +39,6 @@ def print_help_for(command):
 def send_req(t, request):
 	
 	r = requests.post(destination + t, json=request)
-	print(request)
-	# print([x for x in r])
 
 	return r
 
@@ -159,6 +157,13 @@ else:
 			json_extract = {"username": user, "password": password, "file": argv[index]}
 			status = send_req('download', json_extract)
 
+			try:
+				json.loads(status.text)
+				print('File doesn\'t exist')
+			except:
+				print('Successfully obtained file %s' % argv[index])
+				with open(argv[index], 'w') as f:
+					f.write(status.text)
 
 			index += 1
 
@@ -171,8 +176,13 @@ else:
 		user_index -= 1
 
 		while index < user_index:
-			json_share = {"username": user, "password": password, "file": argv[index], "recipient": argv[user_index]}
+			json_share = {"username": user, "password": password, "file": os.path.basename(argv[index]), "recipient": argv[user_index]}
 			status = send_req('share', json_share)
+			resp = json.loads(status.text)['status']
+			if (resp):
+				print('file %s was successfully shared with %s' % (os.path.basename(argv[index]), argv[user_index]))
+			else:
+				print('failed to share file %s' % os.path.basename(argv[index]))
 			index += 1
 
 	# # # # # # # # Share Command # # # # # # # #
@@ -184,8 +194,14 @@ else:
 		user_index -= 1
 
 		while index < user_index:
-			json_share = {"username": user, "password": password, "file": argv[index], "recipient": argv[user_index]}
-			status = send_req('unshare', json_share)
+			json_unshare = {"username": user, "password": password, "file": argv[index], "recipient": argv[user_index]}
+			status = send_req('unshare', json_unshare)
+			resp = json.loads(status.text)['status']
+			if (resp):
+				print('permissions to file %s was successfully revoked from %s' % (os.path.basename(argv[index]), argv[user_index]))
+			else:
+				print('failed to revoke permissions of file %s' % os.path.basename(argv[index]))
+
 			index += 1
 
 
