@@ -77,7 +77,7 @@ def deleteUser():
             connection.commit()
             return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": True}
         else:
-            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}            
+            return {"method": "deleteUser", "username": username, "password": password, "status": "recieved", "deleted": False}
     else:
         return "Must POST to this endpoint to delete a user account."
 
@@ -90,7 +90,6 @@ def upload():
         resp = json.load(request.files['json'])
         print(resp)
         f.save('./webserver/files/'+f.filename)
-
 
         return {"status": "recieved"}
     else:
@@ -119,7 +118,6 @@ def unshare():
         return {"status": "recieved"}
     else:
         return "Must POST to this endpoint to delete a user account."
-
 
 if __name__ == "__main__":
     app.run(debug=True)
