@@ -24,8 +24,6 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-		<title>formDemo.html</title>
-    <meta charset = "UTF-8" />
 </head>
 <body>
 <nav class="navbar navbar-expand-lg" style="background-color: #73006f;">
@@ -41,29 +39,28 @@
 			</span>
 		</li>
 	</ul>
-	<div class="form-inline my-2 my-lg-0">
-		<p style='color: white; padding-right: 10px'> Hi user </p>
-		<button class="btn btn-light my-2 my-sm-0" type="submit">Logout</button>
-	</div>
 	</div>
 </nav>
 <div class="container" >
 	<p>
           <label>Add User</label>
-          <input type = "text"
-                 id = "USER"
-                 value = "Enter Email"/>
+          <input type = "text" id = "USER">
+					<span class="focus-input100"></span>
+					<img class="rounded img-fluid" src="./simpleStore_assets/btn_addUser.png">
   </p>
-	<img class="rounded img-fluid" src="./simpleStore_assets/btn_addUser.png">
-
 	<table class="table table-bordered" id="file_table" style="height: 100px;">
 	<thead style="background-color: #73006f;">
 		<tr>
 			<th style='color: white'>filename </th>
 			<th class="text-center" style='color: white'>
-				 <img class="rounded img-fluid" src="./simpleStore_assets/icon_user.png">
+				 <img class="rounded img-fluid" src="./simpleStore_assets/icon_write.png">
 			  </th>
-			<th class="text-center"style='color: white' colspan="2">  </th>
+				<th class="text-center">
+					<img class="rounded img-fluid" src="./simpleStore_assets/icon_view.png">
+				</th>
+			<th class="text-center"style='color: white'>
+				<img class="rounded img-fluid" src="./simpleStore_assets/icon_trash.png">
+			</th>
 		</tr>
 	</tread>
 	<tbody style="background-color: #ffffff;">
@@ -72,9 +69,9 @@
 	</tbody>
 	</table>
 	<script>
-		var array = [["file1","3","icon","icon"],
-								["file2","10","icon","icon"],
-								["file3"," ","icon","icon"]],//needs to take the info from the database to then post to make this array so it can print
+		var array = [["Useer1","","","icon"],
+								["User2","check","check","icon"],
+								["User3","","check","icon"]],//needs to take the info from the database to then post to make this array so it can print
 								file_table = document.getElementById("file_table");
 		for(var i = 0; i < array.length; i++)
 		{
