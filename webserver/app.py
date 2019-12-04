@@ -30,8 +30,10 @@ def index():
 
 @app.route("/api/login", methods=['GET', 'POST'])
 def login():
+    print(request)
     if request.method == 'POST':
-        print(request.data)
+        print(request.json)
+
         username = request.json['username']
         password = request.json['password']
         q = db_session().query(User).filter(User.username == username).first()

@@ -3,24 +3,36 @@
 <head>
 	<meta charset="utf-8">
 	<title>simple store</title>
-	<link rel="stylesheet" type="text/css" href="js/main.js">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script type="text/javascript" src="../static/js/main.js"></script>
 	<style type="text/css">
 		* {
 			padding:0;
 			margin:0;
 			border:0;
 		}
-		#warning {
+		#warning, #warning2 {
 			display: none;
 			color: red;
+		}
+		#login {
+			display: none;
+			color: green;
+		}
+		#create {
+			display: none;
+			color: black;
 		}
 		#header {
 			text-align:center;
 			width: 100wh;
 			height: 7vh;
 			background-color: purple;
+		}
+		#done {
+			display: none;
+			color: black;
 		}
 		.form-inline {
 			padding: 1em;
@@ -36,7 +48,6 @@
 			margin: 0 1em;
 		}
 	</style>
-	<script type="text/javascript" src="index.js"></script>
 
 </head>
 <body>
@@ -44,26 +55,30 @@
 		<h1>simple store</h1>
 	</div>
 	<div class="container" style="background-color: lightgrey; height: 93vh">
-		<form class="form-inline">
+		<form class="form-inline" method="POST">
 			<label class="form-control">Username <input type="text" name="username" id="username" placeholder="user"></label>
 			<label class="form-control">Password <input type="Password" name="Password" id="Password" placeholder="pass"></label>
-			<button onclick="req('create')" class="btn btn-secondary">Create</button>
-			<button onclick="req('login')" class="btn btn-secondary">Log in</button>
+			<p onclick="send_create('newUser')" class="btn btn-secondary">Create</p>
+			<p onclick="send_login('login')" class="btn btn-secondary">Log in</p>
 		</form>
 		<h3>Share files</h2>
-		<form class="form-inline">
+		<form class="form-inline" method="POST">
 			<label class="form-control">Share <input type="text" name="file_share" id="file_share" placeholder="file to share"></label>
 			<label class="form-control">Recepient <input type="text" name="recip" id="recip" placeholder="bob"></label>
-			<button onclick="req('share')" class="btn btn-secondary">Submit</button>
+			<p onclick="send_share('share')" class="btn btn-secondary">Share</p>
 		</form>
 		<h3>Upload/Download files</h2>
-		<form class="form-inline">
+		<form class="form-inline" method="POST">
 			<label class="form-control">File Name <input type="text" name="file" id="file" placeholder="file.txt"></label>
-			<button onclick="req('download')" class="btn btn-secondary">Submit</button>
+			<p onclick="//send_req('download')" class="btn btn-secondary">Submit</p>
 			<input class="form-control" id = "fileupload" type = "file" />
-			<button onclick="req('upload')" class="btn btn-secondary">Submit</button>
+			<p onclick="//send_req('upload')" class="btn btn-secondary">Submit</p>
 		</form>
-		<p id="warning">Please enter login credentials!</p>
+		<p id="warning">Please enter valid login credentials!</p>
+		<p id="warning2">Missing Fields for that Input!</p>
+		<p id="login">You're Logged In!</p>
+		<p id="create">Account created!</p>
+		<p id="done">Done!</p>
 	</div>
 </body>
 </html>

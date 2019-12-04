@@ -1,5 +1,111 @@
 url = 'http://127.0.0.1:5000/api/'
 
-function send_req(method) {
-	
+function send_login(type) {
+	user = document.getElementById('username').value;
+	pass = document.getElementById('Password').value;
+	console.log(user)
+	console.log(pass)
+	if (user != '' && pass != '') {
+		u = url + type
+		d = { "username":user, "password": pass}
+
+		$.ajax({
+			url: u,
+	        data: JSON.stringify(d),
+	        method: "POST",
+	        contentType: "application/json",
+			dataType: "text",
+	        success: function(result) { 
+	        	warn = document.getElementById('warning');
+	        	logi = document.getElementById('login');
+	        	r = JSON.parse(result)
+	        	console.log(r)
+	        	if (r.loggedin) {
+	        		logi.style.display = "block"
+	        		warn.style.display = "none"
+	        	} else {
+	        		warn.style.display = "block"
+	        		logi.style.display = "none"
+	        	}
+	    }, error: function(xhr) {
+	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
+	    }});
+	} else {
+		obj = document.getElementById('warning');
+		obj.style.display = "block";
+	}
+}
+
+function send_create(type) {
+	user = document.getElementById('username').value;
+	pass = document.getElementById('Password').value;
+	console.log(user)
+	console.log(pass)
+	if (user != '' && pass != '') {
+		u = url + type
+		d = { "username":user, "password": pass}
+
+		$.ajax({
+			url: u,
+	        data: JSON.stringify(d),
+	        method: "POST",
+	        contentType: "application/json",
+			dataType: "text",
+	        success: function(result) { 
+	        	warn = document.getElementById('warning');
+	        	logi = document.getElementById('create');
+	        	r = JSON.parse(result)
+	        	console.log(r)
+	        	if (r.created) {
+	        		logi.style.display = "block"
+	        		warn.style.display = "none"
+	        	} else {
+	        		warn.style.display = "block"
+	        		logi.style.display = "none"
+	        	}
+	    }, error: function(xhr) {
+	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
+	    }});
+	} else {
+		obj = document.getElementById('warning');
+		obj.style.display = "block";
+	}
+}
+
+function send_share(type) {
+	user = document.getElementById('username').value;
+	pass = document.getElementById('Password').value;
+	recp = document.getElementById('recip').value;
+	file = document.getElementById('file_share').value;
+	console.log(user)
+	console.log(pass)
+	if (user != '' && pass != '' && recp != '' && file != ' ') {
+		u = url + type
+		d = { "username":user, "password": pass, "file": file, "recipient": recp}
+
+		$.ajax({
+			url: u,
+	        data: JSON.stringify(d),
+	        method: "POST",
+	        contentType: "application/json",
+			dataType: "text",
+	        success: function(result) { 
+	        	warn = document.getElementById('warning2');
+	        	logi = document.getElementById('done');
+	        	r = JSON.parse(result)
+	        	console.log(r)
+	        	if (r.status) {
+	        		logi.style.display = "block"
+	        		warn.style.display = "none"
+	        	} else {
+	        		warn.style.display = "block"
+	        		logi.style.display = "none"
+	        	}
+	    }, error: function(xhr) {
+	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
+	    }});
+	} else {
+		obj = document.getElementById('warning2');
+		obj.style.display = "block";
+	}
 }
