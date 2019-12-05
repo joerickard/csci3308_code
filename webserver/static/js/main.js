@@ -109,3 +109,31 @@ function send_share(type) {
 		obj.style.display = "block";
 	}
 }
+
+
+function file_upload() {
+	user = document.getElementById('username').value;
+	pass = document.getElementById('Password').value;
+	if (user != '' && pass != '') {
+		var form_data = new FormData($('#upload-file')[0]);
+		u = url + 'browser_upload'
+		
+	    $.ajax({
+	        type: 'POST',
+	        url: u,
+	        username: user, 
+	        password: pass,
+	        data: form_data,
+	        contentType: false,
+	        cache: false,
+	        processData: false,
+	        success: function(data) {
+
+	            console.log('Success!');
+	        },
+	        error: function(data) {
+
+	        }
+	    });
+	}
+}

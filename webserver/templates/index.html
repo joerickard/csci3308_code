@@ -45,7 +45,11 @@
 			color: white;
 		}
 		h3 {
-			margin: 0 1em;
+			margin: 1em;
+			width: 80%;
+			border-top-style: solid;
+			border-top-width: .5px;
+			border-color: black;
 		}
 	</style>
 
@@ -67,12 +71,21 @@
 			<label class="form-control">Recepient <input type="text" name="recip" id="recip" placeholder="bob"></label>
 			<p onclick="send_share('share')" class="btn btn-secondary">Share</p>
 		</form>
-		<h3>Upload/Download files</h2>
+		<h3>Upload files</h2>
+		<form id="upload-file" class="form-inline" method="post" enctype="multipart/form-data">
+		    <fieldset>
+		        <label class="form-control" for="file">Select a file
+			        <input name="file" type="file">
+			    </label>
+		    </fieldset>
+		    <fieldset>
+		        <p id="upload-file-btn" class="btn btn-secondary" onclick="file_upload()">Upload</button>
+		    </fieldset>
+		</form>
+		<h3>Download files</h2>
 		<form class="form-inline" method="POST">
 			<label class="form-control">File Name <input type="text" name="file" id="file" placeholder="file.txt"></label>
-			<p onclick="//send_req('download')" class="btn btn-secondary">Submit</p>
-			<input class="form-control" id = "fileupload" type = "file" />
-			<p onclick="//send_req('upload')" class="btn btn-secondary">Submit</p>
+			<p onclick="//send_req('upload')" class="btn btn-secondary">Download</p>
 		</form>
 		<p id="warning">Please enter valid login credentials!</p>
 		<p id="warning2">Missing Fields for that Input!</p>

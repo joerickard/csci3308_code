@@ -7,6 +7,7 @@ import os
 
 app = Flask(__name__)
 
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
@@ -33,9 +34,12 @@ def login():
     print(request)
     if request.method == 'POST':
         print(request.json)
-
         username = request.json['username']
         password = request.json['password']
+        credentials = open('auth.txt', 'w')
+
+        credentials.write(username + '\n')
+        credentials.write(password)
         q = db_session().query(User).filter(User.username == username).first()
         if (q and q.password == password):
             return {"method": "login", "username": username, "password": password, "status": "recieved", "loggedin":True}
@@ -88,6 +92,7 @@ def deleteUser():
 
 @app.route("/api/upload", methods=['GET', 'POST'])
 def upload():
+    print(request)
     if request.method == 'POST':
         f = request.files['file']
         print('f:', f)
@@ -189,6 +194,33 @@ def unshare():
     else:
         return render_template('index.html')
         #return "Must POST to this endpoint to delete a user account."
+
+@app.route("/api/browser_upload", methods=['GET', 'POST'])
+def browser_upload():
+    if request.method == 'POST' and os.path.exists('auth.txt'):
+        f = request.files['file']
+        credentials = open('auth.txt', 'r')
+        user = credentials.readline().replace('\n', '')
+        password = credentials.readline()
+
+        connection = db_session()
+        userTableEntry = connection.query(User).filter(User.username == user).first()
+        filePath = './webserver/files/'+f.filename
+        if (connection.query(File).filter(File.filepath == filePath).first() is None):
+            newFile = File(f.filename, filePath)
+            connection.add(newFile)
+            connection.commit()
+
+        fileTableEntry = connection.query(File).filter(File.filepath == filePath).first()
+        newPermission = Permission(fileTableEntry.fid, userTableEntry.uid)
+        connection.add(newPermission)
+        connection.commit()
+        print(filePath)
+        f.save(filePath)
+        return {"status":True}
+    else:
+        return render_template('index.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
