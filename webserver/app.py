@@ -197,27 +197,48 @@ def unshare():
 
 @app.route("/api/browser_upload", methods=['GET', 'POST'])
 def browser_upload():
-    if request.method == 'POST' and os.path.exists('auth.txt'):
-        f = request.files['file']
-        credentials = open('auth.txt', 'r')
-        user = credentials.readline().replace('\n', '')
-        password = credentials.readline()
+    if request.method == 'POST':
+        if os.path.exists('auth.txt'):
+            f = request.files['file']
+            credentials = open('auth.txt', 'r')
+            user = credentials.readline().replace('\n', '')
+            password = credentials.readline()
 
-        connection = db_session()
-        userTableEntry = connection.query(User).filter(User.username == user).first()
-        filePath = './webserver/files/'+f.filename
-        if (connection.query(File).filter(File.filepath == filePath).first() is None):
-            newFile = File(f.filename, filePath)
-            connection.add(newFile)
+            connection = db_session()
+            userTableEntry = connection.query(User).filter(User.username == user).first()
+            filePath = './webserver/files/'+f.filename
+            if (connection.query(File).filter(File.filepath == filePath).first() is None):
+                newFile = File(f.filename, filePath)
+                connection.add(newFile)
+                connection.commit()
+
+            fileTableEntry = connection.query(File).filter(File.filepath == filePath).first()
+            newPermission = Permission(fileTableEntry.fid, userTableEntry.uid)
+            connection.add(newPermission)
             connection.commit()
+            print(filePath)
+            f.save(filePath)
+            return {"status":True}
+        else:
+            return {"status":False}
+    else:
+        return render_template('index.html')
 
-        fileTableEntry = connection.query(File).filter(File.filepath == filePath).first()
-        newPermission = Permission(fileTableEntry.fid, userTableEntry.uid)
-        connection.add(newPermission)
-        connection.commit()
-        print(filePath)
-        f.save(filePath)
-        return {"status":True}
+
+@app.route("/api/browser_download", methods=['GET', 'POST'])
+def browser_download():
+    if request.method == 'POST' and os.path.exists('auth.txt'):
+
+        r = request.json
+        file = r['file']
+        connection = db_session()
+        uid = connection.query(User.uid).filter(User.username == r['username'], User.password == r['password']).first()
+        fid = connection.query(File.fid).filter(File.filename == file).first()
+        if (uid is not None and fid is not None):
+            if (connection.query(Permission).filter(Permission.fid == fid[0], Permission.uid == uid[0]).first() is not None):
+                return {'file':True}    
+
+        return {'file':False}
     else:
         return render_template('index.html')
 

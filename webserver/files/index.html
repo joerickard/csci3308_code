@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>simple store</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style type="text/css">
+		* {
+			padding:0;
+			margin:0;
+			border:0;
+		}
+		#warning {
+			display: none;
+			color: red;
+		}
+		#header {
+			text-align:center;
+			width: 100wh;
+			height: 7vh;
+			background-color: purple;
+		}
+		.form-inline {
+			padding: 1em;
+		}
+		.form-inline * {
+			margin: 0 1em;
+		}
+		h1 {
+			size: 5vh;
+			color: white;
+		}
+		h3 {
+			margin: 0 1em;
+		}
+	</style>
+	<script type="text/javascript" src="index.js"></script>
+
+</head>
+<body>
+	<div id="header">
+		<h1>simple store</h1>
+	</div>
+	<div class="container" style="background-color: lightgrey; height: 93vh">
+		<form class="form-inline">
+			<label class="form-control">Username <input type="text" name="username" id="username" placeholder="user"></label>
+			<label class="form-control">Password <input type="Password" name="Password" id="Password" placeholder="pass"></label>
+			<button onclick="req('create')" class="btn btn-secondary">Create</button>
+			<button onclick="req('login')" class="btn btn-secondary">Log in</button>
+		</form>
+		<h3>Share files</h2>
+		<form class="form-inline">
+			<label class="form-control">Share <input type="text" name="file_share" id="file_share" placeholder="file to share"></label>
+			<label class="form-control">Recepient <input type="text" name="recip" id="recip" placeholder="bob"></label>
+			<button onclick="req('share')" class="btn btn-secondary">Submit</button>
+		</form>
+		<h3>Upload/Download files</h2>
+		<form class="form-inline">
+			<label class="form-control">File Name <input type="text" name="file" id="file" placeholder="file.txt"></label>
+			<button onclick="req('download')" class="btn btn-secondary">Submit</button>
+			<input class="form-control" id = "fileupload" type = "file" />
+			<button onclick="req('upload')" class="btn btn-secondary">Submit</button>
+		</form>
+		<p id="warning">Please enter login credentials!</p>
+	</div>
+</body>
+</html>

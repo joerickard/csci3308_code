@@ -117,7 +117,7 @@ function file_upload() {
 	if (user != '' && pass != '') {
 		var form_data = new FormData($('#upload-file')[0]);
 		u = url + 'browser_upload'
-		
+
 	    $.ajax({
 	        type: 'POST',
 	        url: u,
@@ -135,5 +135,37 @@ function file_upload() {
 
 	        }
 	    });
+	}
+}
+
+function file_download() {
+	user = document.getElementById('username').value;
+	pass = document.getElementById('Password').value;
+	file = document.getElementById('file').value;
+	if (user != '' && pass != '') {
+		var form_data = new FormData($('#upload-file')[0]);
+		u = url + 'browser_download'
+		d = { "username":user, "password": pass, "file": file}
+	    $.ajax({
+			url: u,
+	        data: JSON.stringify(d),
+	        method: "POST",
+	        contentType: "application/json",
+			dataType: "text",
+	        success: function(result) { 
+	        	warn = document.getElementById('warning');
+	        	logi = document.getElementById('login');
+	        	r = JSON.parse(result)
+	        	console.log(r)
+	        	if (r.loggedin) {
+	        		logi.style.display = "block"
+	        		warn.style.display = "none"
+	        	} else {
+	        		warn.style.display = "block"
+	        		logi.style.display = "none"
+	        	}
+	    }, error: function(xhr) {
+	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
+	    }});
 	}
 }
