@@ -27,7 +27,7 @@ def index():
     "-create" : "Indicates a new account should be made with given password and username./",
     "-delete" : "Used with a logged in account. Deletes the account."
     }
-    return command_desc
+    return render_template('index.html')
 
 @app.route("/api/login", methods=['GET', 'POST'])
 def login():
@@ -236,7 +236,11 @@ def browser_download():
         fid = connection.query(File.fid).filter(File.filename == file).first()
         if (uid is not None and fid is not None):
             if (connection.query(Permission).filter(Permission.fid == fid[0], Permission.uid == uid[0]).first() is not None):
-                return {'file':True}    
+                w = connection.query(File.filepath).filter(File.fid == fid).first()[0]
+                f = os.path.abspath(w)
+                print(w)
+                # return {'file':w}  
+                return send_file(os.path.dirname(f) + '/' + file,attachment_filename=file,as_attachment=True)  
 
         return {'file':False}
     else:
