@@ -20,6 +20,9 @@
 			display: none;
 			color: green;
 		}
+		#file_to_download {
+			display: none;
+		}
 		#create {
 			display: none;
 			color: black;
@@ -86,6 +89,7 @@
 		<form class="form-inline" method="POST">
 			<label class="form-control">File Name <input type="text" name="file" id="file" placeholder="file.txt"></label>
 			<p onclick="file_download()" class="btn btn-secondary">Download</p>
+			<a href="" id="file_to_download" download target="_blank"></a>
 		</form>
 		<p id="warning">Please enter valid login credentials!</p>
 		<p id="warning2">Missing Fields for that Input!</p>
