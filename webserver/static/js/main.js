@@ -129,7 +129,10 @@ function file_upload() {
 	        processData: false,
 	        success: function(data) {
 
-	            console.log('Success!');
+	            j = JSON.parse(data)
+	            if (data.status) {
+	            	alert('file uploaded')
+	            }
 	        },
 	        error: function(data) {
 
@@ -143,7 +146,6 @@ function file_download() {
 	pass = document.getElementById('Password').value;
 	file = document.getElementById('file').value;
 	if (user != '' && pass != '') {
-		var form_data = new FormData($('#upload-file')[0]);
 		u = url + 'browser_download'
 		d = { "username":user, "password": pass, "file": file}
 	    $.ajax({
@@ -152,20 +154,30 @@ function file_download() {
 	        method: "POST",
 	        contentType: "application/json",
 			dataType: "text",
-	        success: function(result) { 
-	        	warn = document.getElementById('warning');
-	        	logi = document.getElementById('login');
-	        	r = JSON.parse(result)
-	        	console.log(r)
-	        	if (r.loggedin) {
-	        		logi.style.display = "block"
-	        		warn.style.display = "none"
-	        	} else {
-	        		warn.style.display = "block"
-	        		logi.style.display = "none"
-	        	}
+	        success: function(result) {
+	        	type = file.split(".")
+	        	t = type[len(type) - 1]
+	        	download(result, file, t)
 	    }, error: function(xhr) {
 	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
 	    }});
 	}
+}
+
+function download(data, filename, type) {
+    var file = new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, filename);
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);  
+        }, 0); 
+    }
 }
