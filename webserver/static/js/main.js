@@ -156,7 +156,10 @@ function file_download() {
 			dataType: "text",
 	        success: function(result) {
 	        	type = file.split(".")
-	        	t = type[len(type) - 1]
+	        	t = type[type.length - 1]
+	        	console.log(file)
+	        	console.log(t)
+	        	console.log(result)
 	        	download(result, file, t)
 	    }, error: function(xhr) {
 	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
@@ -164,13 +167,13 @@ function file_download() {
 	}
 }
 
-function download(data, filename, type) {
-    var file = new Blob([data], {type: type});
+function download(data, filename) {
+    var file = new Blob([data], {type: 'application/octet-stream'});
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
         var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
+        	url = URL.createObjectURL(file);
         a.href = url;
         a.download = filename;
         document.body.appendChild(a);
