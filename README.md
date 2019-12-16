@@ -1,5 +1,5 @@
 # csci3308
-software development group project
+software development group project. This allows users to send files to a host and then retrieve them both from a GUI and a UI. Currently only works on localhost but does allow for file sharing between users. A demonstration of this can be found here: https://youtu.be/G3KCmDdc1_E 
 
 ### Make things runnable
 1. `git clone https://github.com/joerickard/csci3308_code`
