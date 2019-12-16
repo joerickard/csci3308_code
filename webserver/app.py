@@ -103,7 +103,7 @@ def upload():
         connection = db_session()
         userTableEntry = connection.query(User).filter(User.username == resp['username']).first()
         filePath = './webserver/files/'+f.filename
-        if (len(connection.query(File).filter(File.filepath == filepath).first()) == 0):
+        if (connection.query(File).filter(File.filepath == filePath).first() is None):
             newFile = File(f.filename, filePath)
             connection.add(newFile)
             connection.commit()

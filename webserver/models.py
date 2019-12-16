@@ -27,7 +27,7 @@ class File(object):
         self.filename = fileName
 
     def __repr__(self):
-        return '<File %r>' % (self.fileName)
+        return '<File %r>' % (self.filename)
 
 files = Table('files', metadata,
     Column('fid', Integer, primary_key=True),

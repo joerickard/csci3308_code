@@ -145,6 +145,7 @@ else:
 			if (os.path.exists(argv[index])):
 				json_push = {"username": user, "password": password, "file": argv[index]}
 				resp = send_file('upload', json_push, argv[index])
+				print(resp)
 			else:
 				print('%s is not a valid file' % argv[index])
 
@@ -162,8 +163,9 @@ else:
 				print('File doesn\'t exist')
 			except:
 				print('Successfully obtained file %s' % argv[index])
-				with open(argv[index], 'w') as f:
-					f.write(status.text)
+				# print(status.content)
+				with open(argv[index], 'wb') as f:
+					f.write(status.content)
 
 			index += 1
 
