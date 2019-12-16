@@ -12,7 +12,7 @@
 			margin:0;
 			border:0;
 		}
-		#warning, #warning2 {
+		#warning, #warning2, #warning3 {
 			display: none;
 			color: red;
 		}
@@ -73,6 +73,7 @@
 			<label class="form-control">Share <input type="text" name="file_share" id="file_share" placeholder="file to share"></label>
 			<label class="form-control">Recepient <input type="text" name="recip" id="recip" placeholder="bob"></label>
 			<p onclick="send_share('share')" class="btn btn-secondary">Share</p>
+			<p onclick="send_unshare('unshare')" class="btn btn-secondary">unshare</p>
 		</form>
 		<h3>Upload files</h2>
 		<form id="upload-file" class="form-inline" method="post" enctype="multipart/form-data">
@@ -93,6 +94,7 @@
 		</form>
 		<p id="warning">Please enter valid login credentials!</p>
 		<p id="warning2">Missing Fields for that Input!</p>
+		<p id="warning3">Not a valid file!</p>
 		<p id="login">You're Logged In!</p>
 		<p id="create">Account created!</p>
 		<p id="done">Done!</p>

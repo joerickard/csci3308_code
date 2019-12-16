@@ -196,7 +196,7 @@ else:
 		user_index -= 1
 
 		while index < user_index:
-			json_unshare = {"username": user, "password": password, "file": argv[index], "recipient": argv[user_index]}
+			json_unshare = {"username": user, "password": password, "file": os.path.basename(argv[index]), "recipient": argv[user_index]}
 			status = send_req('unshare', json_unshare)
 			resp = json.loads(status.text)['status']
 			if (resp):

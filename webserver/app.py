@@ -238,8 +238,6 @@ def browser_download():
             if (connection.query(Permission).filter(Permission.fid == fid[0], Permission.uid == uid[0]).first() is not None):
                 w = connection.query(File.filepath).filter(File.fid == fid).first()[0]
                 f = os.path.abspath(w)
-                print(w)
-                # return {'file':w}  
                 return send_file(os.path.dirname(f) + '/' + file,attachment_filename=file,as_attachment=True)  
 
         return {'file':False}

@@ -110,6 +110,41 @@ function send_share(type) {
 	}
 }
 
+function send_unshare(type) {
+	user = document.getElementById('username').value;
+	pass = document.getElementById('Password').value;
+	recp = document.getElementById('recip').value;
+	file = document.getElementById('file_share').value;
+	if (user != '' && pass != '' && recp != '' && file != ' ') {
+		u = url + type
+		d = { "username":user, "password": pass, "file": file, "recipient": recp}
+
+		$.ajax({
+			url: u,
+	        data: JSON.stringify(d),
+	        method: "POST",
+	        contentType: "application/json",
+			dataType: "text",
+	        success: function(result) { 
+	        	warn = document.getElementById('warning2');
+	        	logi = document.getElementById('done');
+	        	r = JSON.parse(result)
+	        	console.log(r)
+	        	if (r.status) {
+	        		logi.style.display = "block"
+	        		warn.style.display = "none"
+	        	} else {
+	        		warn.style.display = "block"
+	        		logi.style.display = "none"
+	        	}
+	    }, error: function(xhr) {
+	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
+	    }});
+	} else {
+		obj = document.getElementById('warning2');
+		obj.style.display = "block";
+	}
+}
 
 function file_upload() {
 	user = document.getElementById('username').value;
@@ -129,9 +164,10 @@ function file_upload() {
 	        processData: false,
 	        success: function(data) {
 
-	            j = JSON.parse(data)
 	            if (data.status) {
-	            	alert('file uploaded')
+	            	alert('File uploaded!')
+	            } else {
+	            	alert('Could not upload file...')
 	            }
 	        },
 	        error: function(data) {
@@ -157,10 +193,7 @@ function file_download() {
 	        success: function(result) {
 	        	type = file.split(".")
 	        	t = type[type.length - 1]
-	        	console.log(file)
-	        	console.log(t)
-	        	console.log(result)
-	        	download(result, file, t)
+	        	download(result, file)
 	    }, error: function(xhr) {
 	    	console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText)
 	    }});
@@ -169,6 +202,10 @@ function file_download() {
 
 function download(data, filename) {
     var file = new Blob([data], {type: 'application/octet-stream'});
+    if (file.size == 20) {
+    	alert('Cannot fetch file! Maybe try CLI?')
+    	return;
+    }
     if (window.navigator.msSaveOrOpenBlob) // IE10+
         window.navigator.msSaveOrOpenBlob(file, filename);
     else { // Others
