@@ -17,3 +17,7 @@ software development group project. This allows users to send files to a host an
 ### Repository Orginization
 
 The database initialization files are located in the database folder. The CLI is found within the cli folder. All other notable files (relavent to the software) are located in the webserver file. The app.py is the only file needed to be ran directly from that folder. The html resides in the templates folder and the javascript is in static/js/. All milestones are within the milestones folder.
+
+### Tests
+
+Refer to the tests file in the repostiory.
